@@ -4,34 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cad4f388-f063-4a99-8692-1410256bba20" name="Changes" comment="">
+    <list default="true" id="cad4f388-f063-4a99-8692-1410256bba20" name="Changes" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/FoodOrderingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/FoodOrderingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/FoodOrderingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/DrinkOrderingSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Coffee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Coffee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Drink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Drink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Juice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Juice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Store.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Tea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Tea.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/DrinkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/DrinkService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/MenuService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/DatabaseUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/DatabaseUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/FileUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/FileUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/PriceCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/PriceCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/ValidationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/ValidationUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/CustomerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/CustomerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MainView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/OrderView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/OrderView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,17 +39,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-j-8.0.33.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/User/IdeaProjects/foodOrderingSystem/src/main/resources/com/qianyi/foodorderingsystem",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\User\IdeaProjects\foodOrderingSystem\src\main\resources\com\qianyi\foodorderingsystem" />
@@ -79,6 +64,15 @@
       <option name="presentableId" value="Default" />
       <updated>1723618370091</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1724676153420</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1724676153420</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,5 +85,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
   </component>
 </project>

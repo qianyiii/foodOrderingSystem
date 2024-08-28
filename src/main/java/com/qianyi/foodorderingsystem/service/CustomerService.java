@@ -13,16 +13,17 @@ public class CustomerService {
     }
 
     // 创建新顾客
-    public Customer createCustomer(String name, String contactInfo) {
-        Customer customer = new Customer(name, contactInfo);
+    public Customer createCustomer(int id, String name, String contactInfo, String email) {
+        Customer customer = new Customer(id, name, contactInfo, email);
         customers.add(customer);
         return customer;
     }
 
     // 更新顾客信息
-    public void updateCustomer(Customer customer, String newName, String newContactInfo) {
+    public void updateCustomer(Customer customer,  String newName, String newContactInfo, String newEmail) {
         customer.setName(newName);
         customer.setContactInfo(newContactInfo);
+        customer.setEmail(newEmail);
     }
 
     // 删除顾客

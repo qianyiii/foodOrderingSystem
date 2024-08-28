@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 public class MainView {
 
     private VBox mainLayout;
+    private Button menuButton;
+    private Button orderButton;
+    private Button customerButton;
 
     public MainView() {
         // Initialize the main layout
@@ -17,13 +20,13 @@ public class MainView {
         mainLayout.setAlignment(Pos.CENTER);
 
         // Add welcome message
-        Label welcomeLabel = new Label("Welcome to Fauget Fresh Drink Ordering System!");
+        Label welcomeLabel = new Label("Welcome to Drink Ordering System!");
         welcomeLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
-        // Add buttons to navigate to other views
-        Button menuButton = new Button("View Menu");
-        Button orderButton = new Button("Place Order");
-        Button customerButton = new Button("Customer Information");
+        // Initialize buttons to navigate to other views
+        menuButton = new Button("View Menu");
+        orderButton = new Button("Place Order");
+        customerButton = new Button("Customer Information");
 
         // Add components to the layout
         mainLayout.getChildren().addAll(welcomeLabel, menuButton, orderButton, customerButton);
@@ -31,5 +34,17 @@ public class MainView {
 
     public VBox getMainLayout() {
         return mainLayout;
+    }
+
+    public Button getMenuButton() {
+        return menuButton;
+    }
+
+    public Button getOrderButton() {
+        return orderButton;
+    }
+
+    public Button getCustomerButton() {
+        return customerButton;
     }
 }

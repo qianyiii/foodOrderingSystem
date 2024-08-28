@@ -11,13 +11,13 @@ public class CustomerController {
     }
 
     // 创建新顾客
-    public Customer createCustomer(String name, String contactInfo) {
-        return customerService.createCustomer(name, contactInfo);
+    public Customer createCustomer(int id, String name, String contactInfo, String email) {
+        return customerService.createCustomer(id, name, contactInfo, email);
     }
 
     // 更新顾客信息
-    public void updateCustomer(Customer customer, String newName, String newContactInfo) {
-        customerService.updateCustomer(customer, newName, newContactInfo);
+    public void updateCustomer(Customer customer, String newName, String newContactInfo, String newEmail) {
+        customerService.updateCustomer(customer, newName, newContactInfo, newEmail);
     }
 
     // 删除顾客
