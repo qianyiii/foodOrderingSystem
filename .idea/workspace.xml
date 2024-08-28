@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cad4f388-f063-4a99-8692-1410256bba20" name="Changes" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/qianyi/foodorderingsystem/coffee4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/FoodOrderingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/DrinkOrderingSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MainView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MenuView.java" afterDir="false" />
-    </list>
+    <list default="true" id="cad4f388-f063-4a99-8692-1410256bba20" name="Changes" comment="Initial commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +59,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724676153420</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1724807399021</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1724807399022</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
