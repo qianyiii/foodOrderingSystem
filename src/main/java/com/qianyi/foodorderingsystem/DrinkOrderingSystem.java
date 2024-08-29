@@ -1,5 +1,7 @@
 package com.qianyi.foodorderingsystem;
 
+import com.qianyi.foodorderingsystem.controller.OrderController;
+import com.qianyi.foodorderingsystem.service.OrderService;
 import com.qianyi.foodorderingsystem.view.CustomerView;
 import com.qianyi.foodorderingsystem.view.MainView;
 import com.qianyi.foodorderingsystem.view.MenuView;
@@ -15,8 +17,16 @@ import javafx.stage.Stage;
 
 public class DrinkOrderingSystem extends Application {
 
+    private MenuView menuView;
+    private OrderService orderService;
+    private OrderController orderController;
+
     @Override
     public void start(Stage stage) {
+        // Initialize the OrderService and OrderController
+        orderService = new OrderService();
+        orderController = new OrderController(orderService);
+
         // Load the image from resources
         Image image = new Image(getClass().getResourceAsStream("Cover Image.png"));
         ImageView imageView = new ImageView(image);
@@ -52,30 +62,37 @@ public class DrinkOrderingSystem extends Application {
         Scene mainScene = new Scene(mainView.getMainLayout(), 600, 400);
 
         // Set up buttons to switch views
-        mainView.getMenuButton().setOnAction(e -> showMenuView(stage, mainScene));
+        mainView.getMenuButton().setOnAction(e -> showMenuView(stage));
         mainView.getOrderButton().setOnAction(e -> showOrderView(stage));
         mainView.getCustomerButton().setOnAction(e -> showCustomerView(stage));
 
         stage.setScene(mainScene);
     }
 
-    private void showMenuView(Stage stage, Scene mainScene) {
-        MenuView menuView = new MenuView(stage, mainScene);
+    private void showMenuView(Stage stage) {
+        menuView = new MenuView(stage, stage.getScene(), orderController); // Pass orderController to MenuView
         Scene menuScene = new Scene(menuView.getMenuLayout(), 600, 400);
         stage.setScene(menuScene);
     }
 
     private void showOrderView(Stage stage) {
-        OrderView orderView = new OrderView();
-        Scene orderScene = new Scene(orderView.getOrderLayout(), 600, 400);
-        stage.setScene(orderScene);
+        if (menuView != null) {
+            OrderView orderView = new OrderView(orderController);
+            Scene orderScene = new Scene(orderView.getOrderLayout(), 600, 400);
+            stage.setScene(orderScene);
+        } else {
+            // Provide feedback if the menuView is not initialized
+            System.out.println("Please select items from the menu first.");
+        }
     }
 
     private void showCustomerView(Stage stage) {
-        CustomerView customerView = new CustomerView();
+        Scene mainScene = stage.getScene(); // Store the current main scene
+        CustomerView customerView = new CustomerView(stage, mainScene); // Pass the stage and mainScene to CustomerView
         Scene customerScene = new Scene(customerView.getCustomerLayout(), 600, 400);
         stage.setScene(customerScene);
     }
+
 
     public static void main(String[] args) {
         launch();
