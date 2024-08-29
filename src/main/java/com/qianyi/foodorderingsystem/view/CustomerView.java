@@ -1,5 +1,6 @@
 package com.qianyi.foodorderingsystem.view;
 
+import com.qianyi.foodorderingsystem.util.DatabaseUtil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -57,6 +58,10 @@ public class CustomerView {
 
         // Button to submit customer information
         Button submitButton = new Button("Submit");
+        submitButton.setOnAction(e -> {
+            insertCustomerData(nameField.getText(), phoneField.getText(), emailField.getText());
+            showSuccessMessage(stage);
+        });
 
         // Add components to the layout
         VBox formLayout = new VBox(20, customerLabel, nameBox, phoneBox, emailBox, submitButton);
@@ -71,6 +76,50 @@ public class CustomerView {
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.getChildren().addAll(label, textField);
         return hBox;
+    }
+
+    private void insertCustomerData(String name, String phone, String email) {
+        // Define the SQL query
+        String query = "INSERT INTO customers (name, phone, email) VALUES (?, ?, ?)";
+
+        // Use DatabaseUtil to execute the query
+        DatabaseUtil.executeUpdate(query, name, phone, email);
+    }
+
+    private void showSuccessMessage(Stage parentStage) {
+        // Create a new stage for the success message
+        Stage messageStage = new Stage();
+        messageStage.setTitle("Success");
+
+        // Labels to display the customer information
+        Label messageLabel = new Label("Your information has been submitted.");
+        messageLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+        Label nameLabel = new Label("Name: " + nameField.getText());
+        Label phoneLabel = new Label("Contact No: " + phoneField.getText());
+        Label emailLabel = new Label("Email: " + emailField.getText());
+
+        // Create the "OK" button
+        Button okButton = new Button("OK");
+        okButton.setOnAction(e -> {
+            // Clear the text fields
+            nameField.clear();
+            phoneField.clear();
+            emailField.clear();
+            // Close the message window
+            messageStage.close();
+        });
+
+        // Arrange message and button in a layout
+        VBox messageLayout = new VBox(20, messageLabel, nameLabel, phoneLabel, emailLabel, okButton);
+        messageLayout.setAlignment(Pos.CENTER);
+        messageLayout.setPadding(new Insets(20));
+
+        // Set up the scene and stage
+        Scene scene = new Scene(messageLayout, 450, 200);
+        messageStage.setScene(scene);
+        messageStage.initOwner(parentStage); // Set the parent window
+        messageStage.showAndWait(); // Block the parent window until this one is closed
     }
 
     public BorderPane getCustomerLayout() {

@@ -52,7 +52,7 @@ public class DrinkOrderingSystem extends Application {
 
         // Set up the scene and stage
         Scene scene = new Scene(stackPane, 600, 400);
-        stage.setTitle("Fauget Fresh Drink");
+        stage.setTitle("Drink Ordering System");
         stage.setScene(scene);
         stage.show();
     }
