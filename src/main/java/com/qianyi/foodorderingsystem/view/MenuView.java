@@ -1,16 +1,13 @@
 package com.qianyi.foodorderingsystem.view;
 
 import com.qianyi.foodorderingsystem.controller.OrderController;
-import com.qianyi.foodorderingsystem.model.Order;
+import com.qianyi.foodorderingsystem.model.Customer;
 import com.qianyi.foodorderingsystem.model.Drink;
+import com.qianyi.foodorderingsystem.model.Order;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -33,17 +30,21 @@ public class MenuView {
     private BorderPane menuLayout;
     private List<String> orderedItems;
     private OrderController orderController;
-    private Order currentOrder; // Field to keep track of the current order
+    private Order currentOrder;
+    private OrderView orderView; // Field for OrderView
 
     public MenuView(Stage primaryStage, Scene mainScene, OrderController orderController) {
         this.orderController = orderController;
         this.currentOrder = orderController.createOrder(); // Create a new order upon initialization
+        this.orderView = new OrderView(orderController); // Initialize OrderView
+
         menuLayout = new BorderPane();
         orderedItems = new ArrayList<>();
 
         menuLayout.setTop(createTopBar(primaryStage, mainScene));
         menuLayout.setLeft(createLeftBar());
         menuLayout.setCenter(displayMenu());
+        menuLayout.setRight(orderView.getOrderLayout()); // Display OrderView on the right side
     }
 
     public BorderPane getMenuLayout() {
@@ -122,14 +123,17 @@ public class MenuView {
             txtPrice.setFill(Color.GREEN);
             btnOrder = new Button("Add to Order");
 
-            final String itemName = drinkNames[i]; // Effectively final
-            final double price = prices[i]; // Effectively final
+            final String itemName = drinkNames[i];
+            final double price = prices[i];
             btnOrder.setOnAction(e -> {
                 // Create Drink object
-                Drink drink = new Drink(itemName, price, "Regular"); // Assuming size "Regular"
+                Drink drink = new Drink(itemName, price, "Regular");
 
                 // Use orderController to add drink to the current order
                 orderController.addDrinkToOrder(currentOrder, drink);
+
+                // Update OrderView
+                orderView.addDrinkToOrder(drink);
 
                 showSuccessMessage("Successfully added " + itemName + " to order!");
             });
@@ -171,5 +175,7 @@ public class MenuView {
         successStage.setScene(scene);
         successStage.showAndWait();
     }
+
 }
+
 

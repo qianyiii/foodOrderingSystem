@@ -4,6 +4,7 @@ import com.qianyi.foodorderingsystem.controller.OrderController;
 import com.qianyi.foodorderingsystem.model.Order;
 import com.qianyi.foodorderingsystem.model.Drink;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -12,12 +13,13 @@ public class OrderView {
     private VBox orderLayout;
     private OrderController orderController;
     private Order order;
+
     private ListView<String> orderListView;
     private Text totalPriceText;
 
     public OrderView(OrderController orderController) {
         this.orderController = orderController;
-        this.order = orderController.createOrder();
+        this.order = orderController.getCurrentOrder(); // Ensure using the current order
 
         // Initialize the layout and set padding and spacing
         orderLayout = new VBox();
@@ -34,6 +36,11 @@ public class OrderView {
         // Display the total price of the order
         totalPriceText = new Text("Total: RM" + orderController.getTotalPrice(order));
         orderLayout.getChildren().add(totalPriceText);
+
+        // Add a confirmation button
+        Button confirmButton = new Button("Confirm Order");
+        confirmButton.setOnAction(e -> confirmOrder());
+        orderLayout.getChildren().add(confirmButton);
 
         // Initially update the order view
         updateOrderView();
@@ -62,7 +69,17 @@ public class OrderView {
         totalPriceText.setText("Total: RM" + orderController.getTotalPrice(order));
     }
 
+    private void confirmOrder() {
+        // Logic to confirm the order can go here
+        // For now, just display a success message
+        System.out.println("Order confirmed!");
+        // Clear the order and update the view
+        order.getDrinks().clear();
+        updateOrderView();
+    }
+
     public VBox getOrderLayout() {
         return orderLayout;
     }
 }
+

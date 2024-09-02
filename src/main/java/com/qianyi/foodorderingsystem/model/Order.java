@@ -9,9 +9,16 @@ public class Order {
     private Customer customer;
     private List<Drink> drinks;
 
-    public Order() {
+    // Constructor with Customer
+    public Order(Customer customer) {
         this.orderId = nextOrderId++;
         this.customer = customer;
+        this.drinks = new ArrayList<>();
+    }
+
+    // Default constructor
+    public Order() {
+        this.orderId = nextOrderId++;
         this.drinks = new ArrayList<>();
     }
 
@@ -21,6 +28,10 @@ public class Order {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public List<Drink> getDrinks() {
@@ -45,6 +56,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order ID: " + orderId + "\nCustomer: " + customer.getName() + "\nTotal Price: $" + calculateTotalPrice();
+        String customerName = (customer != null) ? customer.getName() : "No customer assigned";
+        return "Order ID: " + orderId + "\nCustomer: " + customerName + "\nTotal Price: RM" + calculateTotalPrice();
     }
 }

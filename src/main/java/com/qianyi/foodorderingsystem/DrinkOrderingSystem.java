@@ -42,7 +42,7 @@ public class DrinkOrderingSystem extends Application {
 
         // Create "Start to Order Now!" label
         Label startLabel = new Label("Start to Order Now!");
-        startLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: black;");
+        startLabel.setStyle("-fx-font-family: Comic Sans MS; -fx-font-size: 24px; -fx-text-fill: black;");
         startLabel.setOnMouseClicked(event -> showMainView(stage));  // Add click event to the label
 
         // Use a StackPane to overlay the label on the image
@@ -58,7 +58,7 @@ public class DrinkOrderingSystem extends Application {
     }
 
     private void showMainView(Stage stage) {
-        MainView mainView = new MainView();
+        MainView mainView = new MainView(stage);
         Scene mainScene = new Scene(mainView.getMainLayout(), 600, 400);
 
         // Set up buttons to switch views
@@ -71,7 +71,7 @@ public class DrinkOrderingSystem extends Application {
 
     private void showMenuView(Stage stage) {
         menuView = new MenuView(stage, stage.getScene(), orderController); // Pass orderController to MenuView
-        Scene menuScene = new Scene(menuView.getMenuLayout(), 600, 400);
+        Scene menuScene = new Scene(menuView.getMenuLayout(), 750, 400);
         stage.setScene(menuScene);
     }
 
