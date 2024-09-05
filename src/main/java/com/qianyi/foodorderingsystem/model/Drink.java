@@ -1,17 +1,30 @@
 package com.qianyi.foodorderingsystem.model;
 
 public class Drink {
+    private int id;
     private String name;
     private double price;
     private String size;
+    private String category;
 
-    public Drink(String name, double price, String size) {
+    public Drink(int id, String name, double price, String size, String category) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.size = size;
+        this.category = category;
     }
 
     // Getters and setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -36,8 +49,14 @@ public class Drink {
         this.size = size;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
     @Override
     public String toString() {
-        return name + " (" + size + " - RM" + price;
+        return name + " (" + size + " )" + " - RM" + price;
     }
+
+
 }

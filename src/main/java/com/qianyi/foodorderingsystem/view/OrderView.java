@@ -1,85 +1,156 @@
 package com.qianyi.foodorderingsystem.view;
 
 import com.qianyi.foodorderingsystem.controller.OrderController;
-import com.qianyi.foodorderingsystem.model.Order;
 import com.qianyi.foodorderingsystem.model.Drink;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class OrderView {
-    private VBox orderLayout;
     private OrderController orderController;
-    private Order order;
-
-    private ListView<String> orderListView;
-    private Text totalPriceText;
+    private VBox orderLayout;
+    private ListView<Drink> drinkListView;
+    private ListView<Drink> orderListView;
+    private Label totalPriceLabel;
+    private Button addButton;
+    private Button removeButton;
+    private Button confirmButton;
 
     public OrderView(OrderController orderController) {
         this.orderController = orderController;
-        this.order = orderController.getCurrentOrder(); // Ensure using the current order
+        initializeLayout();
+    }
 
-        // Initialize the layout and set padding and spacing
-        orderLayout = new VBox();
-        orderLayout.setSpacing(10);
-        orderLayout.setPadding(new Insets(10));
+    private void initializeLayout() {
+        orderLayout = new VBox(10);
+        orderLayout.setPadding(new Insets(20));
+        orderLayout.setAlignment(Pos.CENTER);
 
-        Text header = new Text("Your Order:");
-        orderLayout.getChildren().add(header);
+        Text title = new Text("Place Your Order");
+        title.setFont(Font.font(20));
 
-        // Create a ListView to display ordered items
+        // Available drinks list
+        drinkListView = new ListView<>();
+        drinkListView.setPrefHeight(200);
+
+        // Order items list
         orderListView = new ListView<>();
-        orderLayout.getChildren().add(orderListView);
+        orderListView.setPrefHeight(200);
 
-        // Display the total price of the order
-        totalPriceText = new Text("Total: RM" + orderController.getTotalPrice(order));
-        orderLayout.getChildren().add(totalPriceText);
+        // Buttons
+        addButton = new Button("Add >>");
+        addButton.setOnAction(e -> {
+            Drink selectedDrink = drinkListView.getSelectionModel().getSelectedItem();
+            if (selectedDrink != null) {
+                orderController.addDrinkToOrder(selectedDrink);
+                orderListView.getItems().add(selectedDrink);
+                updateTotalPrice();
+            }
+        });
+        removeButton = new Button("<< Remove");
+        removeButton.setOnAction(e -> {
+            Drink selectedDrink = orderListView.getSelectionModel().getSelectedItem();
+            if (selectedDrink != null) {
+                orderController.removeDrinkFromOrder(selectedDrink);
+                orderListView.getItems().remove(selectedDrink);
+                updateTotalPrice();
+            }
+        });
+        confirmButton = new Button("Confirm Order");
+        confirmButton.setOnAction(e -> {
+            try {
+                orderController.saveOrder();
+                showAlert(Alert.AlertType.INFORMATION, "Order Confirmed", "Your order has been placed successfully!");
+                Stage stage = (Stage) orderLayout.getScene().getWindow();
+                stage.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Order Failed", "Failed to save order to the database.");
+            }
+        });
 
-        // Add a confirmation button
-        Button confirmButton = new Button("Confirm Order");
-        confirmButton.setOnAction(e -> confirmOrder());
-        orderLayout.getChildren().add(confirmButton);
+        totalPriceLabel = new Label("Total Price: RM0.00");
 
-        // Initially update the order view
-        updateOrderView();
+        orderLayout.getChildren().addAll(
+                title,
+                new Label("Available Drinks:"),
+                drinkListView,
+                addButton,
+                new Label("Your Order:"),
+                orderListView,
+                removeButton,
+                totalPriceLabel,
+                confirmButton
+        );
+
+        // Load drinks data
+        try {
+            List<Drink> drinks = orderController.getAvailableDrinks();
+            drinkListView.getItems().addAll(drinks);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Data Load Error", "Failed to load available drinks.");
+        }
     }
 
     public void addDrinkToOrder(Drink drink) {
-        orderController.addDrinkToOrder(order, drink);
-        updateOrderView();
-    }
-
-    public void removeDrinkFromOrder(Drink drink) {
-        orderController.removeDrinkFromOrder(order, drink);
-        updateOrderView();
-    }
-
-    private void updateOrderView() {
-        // Clear the ListView
-        orderListView.getItems().clear();
-
-        // Add each drink to the ListView
-        for (Drink drink : order.getDrinks()) {
-            orderListView.getItems().add(drink.getName() + " - RM" + drink.getPrice());
+        if (drink != null && drink.getId() > 0) {
+            orderController.addDrinkToOrder(drink);
+            orderListView.getItems().add(drink);
+            updateTotalPrice();
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Invalid Drink", "Selected drink has an invalid ID.");
         }
+    }
 
-        // Update the total price
-        totalPriceText.setText("Total: RM" + orderController.getTotalPrice(order));
+    private void removeDrinkFromOrder() {
+        Drink selectedDrink = orderListView.getSelectionModel().getSelectedItem();
+        if (selectedDrink != null) {
+            orderController.removeDrinkFromOrder(selectedDrink);
+            orderListView.getItems().remove(selectedDrink);
+            updateTotalPrice();
+        } else {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a drink to remove.");
+        }
+    }
+
+    private void updateTotalPrice() {
+        double totalPrice = orderController.getTotalPrice();
+        totalPriceLabel.setText(String.format("Total Price: RM%.2f", totalPrice));
     }
 
     private void confirmOrder() {
-        // Logic to confirm the order can go here
-        // For now, just display a success message
-        System.out.println("Order confirmed!");
-        // Clear the order and update the view
-        order.getDrinks().clear();
-        updateOrderView();
+        try {
+            orderController.saveOrder(); // This may throw SQLException
+            showAlert(Alert.AlertType.INFORMATION, "Order Confirmed", "Your order has been placed successfully!");
+            // Close the order window after confirmation
+            Stage stage = (Stage) orderLayout.getScene().getWindow();
+            stage.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Order Failed", "Failed to save order to the database.");
+        }
     }
 
     public VBox getOrderLayout() {
         return orderLayout;
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.initOwner(orderLayout.getScene().getWindow());
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
+
 

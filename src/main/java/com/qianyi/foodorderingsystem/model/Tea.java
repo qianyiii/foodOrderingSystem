@@ -3,8 +3,8 @@ package com.qianyi.foodorderingsystem.model;
 public class Tea extends Drink {
     private String teaType;
 
-    public Tea(String name, double price, String size, String teaType) {
-        super(name, price, size);
+    public Tea(int id, String name, double price, String size, String category, String teaType) {
+        super(id, name, price, size, category);
         this.teaType = teaType;
     }
 

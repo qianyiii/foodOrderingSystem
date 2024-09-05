@@ -20,9 +20,9 @@ public class CustomerService {
     }
 
     // 更新顾客信息
-    public void updateCustomer(Customer customer,  String newName, String newContactInfo, String newEmail) {
+    public void updateCustomer(Customer customer,  String newName, String newPhone, String newEmail) {
         customer.setName(newName);
-        customer.setContactInfo(newContactInfo);
+        customer.setPhone(newPhone);
         customer.setEmail(newEmail);
     }
 

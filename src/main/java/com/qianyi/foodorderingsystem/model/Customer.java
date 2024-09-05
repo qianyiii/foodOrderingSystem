@@ -1,24 +1,20 @@
 package com.qianyi.foodorderingsystem.model;
 
 public class Customer {
-    private int id;
+    private int customerId;
     private String name;
-    private String contactInfo;
+    private String phone;
     private String email;
 
-    public Customer(int id, String name, String contactInfo, String email) {
-        this.id = id;
+    public Customer(int customerId, String name, String phone, String email) {
+        this.customerId = customerId;
         this.name = name;
-        this.contactInfo = contactInfo;
+        this.phone = phone;
         this.email = email;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public int getCustomerId() {
+        return customerId;
     }
 
     public String getName() {
@@ -29,15 +25,15 @@ public class Customer {
         this.name = name;
     }
 
-    public String getContactInfo() {
-        return contactInfo;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
@@ -47,6 +43,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Id: " + id + "Customer: " + name + " (" + contactInfo + ")" + "Email: " + email;
+        return "Id: " + customerId + " Customer: " + name + " (" + phone + ") Email: " + email;
     }
 }

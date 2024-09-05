@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class DrinkOrderingSystem extends Application {
@@ -25,7 +26,9 @@ public class DrinkOrderingSystem extends Application {
     public void start(Stage stage) {
         // Initialize the OrderService and OrderController
         orderService = new OrderService();
+        // Initialize the OrderController with the OrderService
         orderController = new OrderController(orderService);
+
 
         // Load the image from resources
         Image image = new Image(getClass().getResourceAsStream("Cover Image.png"));
@@ -40,9 +43,14 @@ public class DrinkOrderingSystem extends Application {
         imageView.fitWidthProperty().bind(stage.widthProperty());
         imageView.fitHeightProperty().bind(stage.heightProperty());
 
+        // Load custom font from resources
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("CaveatBold.ttf"), 24);
+
+
         // Create "Start to Order Now!" label
         Label startLabel = new Label("Start to Order Now!");
-        startLabel.setStyle("-fx-font-family: Comic Sans MS; -fx-font-size: 24px; -fx-text-fill: black;");
+        startLabel.setFont(customFont); // Apply custom font
+        startLabel.setStyle("-fx-text-fill: black;");
         startLabel.setOnMouseClicked(event -> showMainView(stage));  // Add click event to the label
 
         // Use a StackPane to overlay the label on the image
@@ -71,7 +79,7 @@ public class DrinkOrderingSystem extends Application {
 
     private void showMenuView(Stage stage) {
         menuView = new MenuView(stage, stage.getScene(), orderController); // Pass orderController to MenuView
-        Scene menuScene = new Scene(menuView.getMenuLayout(), 750, 400);
+        Scene menuScene = new Scene(menuView.getMenuLayout(), 1000, 450);
         stage.setScene(menuScene);
     }
 
@@ -92,7 +100,6 @@ public class DrinkOrderingSystem extends Application {
         Scene customerScene = new Scene(customerView.getCustomerLayout(), 600, 400);
         stage.setScene(customerScene);
     }
-
 
     public static void main(String[] args) {
         launch();

@@ -1,8 +1,12 @@
 package com.qianyi.foodorderingsystem.view;
 
+import com.qianyi.foodorderingsystem.controller.OrderController;
+import com.qianyi.foodorderingsystem.model.Customer;
+import com.qianyi.foodorderingsystem.service.OrderService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -30,6 +34,9 @@ public class MainView {
     private Label welcomeLabel;
     private Label loginLabel;
     private String customerName;
+
+    private OrderController orderController;
+    private Customer currentCustomer;
 
     public MainView(Stage stage) {
         // Initialize the main layout
@@ -62,6 +69,12 @@ public class MainView {
 
         // Add buttons to the center layout
         centerLayout.getChildren().addAll(menuButton, orderButton, customerButton);
+
+        // Initialize OrderController
+        orderController = new OrderController(new OrderService());
+
+        // Attach event handlers
+        orderButton.setOnAction(event -> navigateToOrderView());
     }
 
     private void handleLoginLogout(Stage parentStage) {
@@ -165,6 +178,32 @@ public class MainView {
 
     public BorderPane getMainLayout() {
         return mainLayout;
+    }
+
+    private void navigateToOrderView() {
+        if (currentCustomer != null) {
+            orderController.createNewOrder(currentCustomer);
+            OrderView orderView = new OrderView(orderController);
+            Stage orderStage = new Stage();
+            orderStage.setTitle("Order View");
+            orderStage.initOwner(mainLayout.getScene().getWindow());
+            orderStage.setScene(new Scene(orderView.getOrderLayout(), 500, 600));
+            orderStage.show();
+        } else {
+            showAlert(Alert.AlertType.WARNING, "No Customer", "Please log in before placing an order.");
+        }
+    }
+
+
+
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.initOwner(mainLayout.getScene().getWindow());
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public Button getMenuButton() {

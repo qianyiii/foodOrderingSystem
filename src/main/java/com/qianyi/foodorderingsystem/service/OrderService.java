@@ -1,49 +1,66 @@
 package com.qianyi.foodorderingsystem.service;
 
-import com.qianyi.foodorderingsystem.model.Order;
+import com.qianyi.foodorderingsystem.model.Customer;
 import com.qianyi.foodorderingsystem.model.Drink;
+import com.qianyi.foodorderingsystem.model.Order;
+import com.qianyi.foodorderingsystem.util.DatabaseUtil;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService {
-    private List<Order> orders;
 
-    public OrderService() {
-        orders = new ArrayList<>();
+    // Retrieve available drinks from the database
+    public List<Drink> getAvailableDrinks() throws SQLException {
+        List<Drink> drinks = new ArrayList<>();
+        String query = "SELECT * FROM drinks";
+
+        try (Connection connection = DatabaseUtil.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Drink drink = new Drink(rs.getInt("id"), rs.getString("name"),
+                        rs.getDouble("price"), rs.getString("size"), rs.getString("category"));
+                drinks.add(drink);
+            }
+        }
+
+        return drinks;
     }
 
-    // 创建新订单
-    public Order createOrder(Order order) {
-        orders.add(order);
-        return order;
+    // Save order to the database
+    public void saveOrder(Order order) throws SQLException {
+        String orderInsertQuery = "INSERT INTO orders (customer_id, order_date) VALUES (?, NOW())";
+        try (Connection connection = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(orderInsertQuery, Statement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setInt(1, order.getCustomerId());
+            pstmt.executeUpdate();
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int orderId = generatedKeys.getInt(1);
+                    saveOrderItems(orderId, order.getDrinks());
+                }
+            }
+        }
     }
 
-    // 添加饮料到订单
-    public void addDrinkToOrder(Order order, Drink drink) {
-        order.addDrink(drink);
-    }
+    private void saveOrderItems(int orderId, List<Drink> drinks) throws SQLException {
+        String orderItemInsertQuery = "INSERT INTO orders_items (order_id, drink_id, quantity, total_price) VALUES (?, ?, ?, ?)";
 
-    // 从订单中删除饮料
-    public void removeDrinkFromOrder(Order order, Drink drink) {
-        order.removeDrink(drink);
-    }
+        try (Connection connection = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(orderItemInsertQuery)) {
 
-    // 计算订单总价格
-    public double calculateTotalPrice(Order order) {
-        return order.calculateTotalPrice();
-    }
-
-    // 获取所有订单
-    public List<Order> getAllOrders() {
-        return orders;
-    }
-
-    // 根据订单号查找订单
-    public Order findOrderById(int orderId) {
-        return orders.stream()
-                .filter(order -> order.getOrderId() == orderId)
-                .findFirst()
-                .orElse(null);
+            for (Drink drink : drinks) {
+                pstmt.setInt(1, orderId);
+                pstmt.setInt(2, drink.getId());
+                pstmt.setInt(3, 1); // Assuming quantity is 1 for simplicity
+                pstmt.setDouble(4, drink.getPrice());
+                pstmt.executeUpdate();
+            }
+        }
     }
 }

@@ -1,62 +1,55 @@
 package com.qianyi.foodorderingsystem.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private static int nextOrderId = 1;
-    private int orderId;
-    private Customer customer;
-    private List<Drink> drinks;
+    private int id;
+    private int customerId;
+    private LocalDateTime orderDate;
+    private List<Drink> drinks; // Add a list to store drinks
 
-    // Constructor with Customer
-    public Order(Customer customer) {
-        this.orderId = nextOrderId++;
-        this.customer = customer;
-        this.drinks = new ArrayList<>();
-    }
-
-    // Default constructor
     public Order() {
-        this.orderId = nextOrderId++;
-        this.drinks = new ArrayList<>();
+        drinks = new ArrayList<>(); // Initialize the list of drinks
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getId() {
+        return id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public List<Drink> getDrinks() {
-        return drinks;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    // Add drink to the order
     public void addDrink(Drink drink) {
         drinks.add(drink);
     }
 
+    // Remove drink from the order
     public void removeDrink(Drink drink) {
         drinks.remove(drink);
     }
 
-    public double calculateTotalPrice() {
-        double total = 0;
-        for (Drink drink : drinks) {
-            total += drink.getPrice();
-        }
-        return total;
-    }
-
-    @Override
-    public String toString() {
-        String customerName = (customer != null) ? customer.getName() : "No customer assigned";
-        return "Order ID: " + orderId + "\nCustomer: " + customerName + "\nTotal Price: RM" + calculateTotalPrice();
+    // Get all drinks in the order
+    public List<Drink> getDrinks() {
+        return drinks;
     }
 }

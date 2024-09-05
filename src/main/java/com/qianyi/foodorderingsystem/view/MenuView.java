@@ -18,7 +18,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -31,20 +30,22 @@ public class MenuView {
     private List<String> orderedItems;
     private OrderController orderController;
     private Order currentOrder;
-    private OrderView orderView; // Field for OrderView
+    private OrderView orderView;
 
     public MenuView(Stage primaryStage, Scene mainScene, OrderController orderController) {
         this.orderController = orderController;
-        this.currentOrder = orderController.createOrder(); // Create a new order upon initialization
-        this.orderView = new OrderView(orderController); // Initialize OrderView
+        this.orderView = new OrderView(orderController);
 
         menuLayout = new BorderPane();
         orderedItems = new ArrayList<>();
 
+        Customer customer = new Customer(1, "qy", "01234567", "qy@email.com");
+        orderController.createNewOrder(customer);
+
         menuLayout.setTop(createTopBar(primaryStage, mainScene));
         menuLayout.setLeft(createLeftBar());
         menuLayout.setCenter(displayMenu());
-        menuLayout.setRight(orderView.getOrderLayout()); // Display OrderView on the right side
+        menuLayout.setRight(orderView.getOrderLayout());
     }
 
     public BorderPane getMenuLayout() {
@@ -127,10 +128,10 @@ public class MenuView {
             final double price = prices[i];
             btnOrder.setOnAction(e -> {
                 // Create Drink object
-                Drink drink = new Drink(itemName, price, "Regular");
+                Drink drink = new Drink(1, itemName, price, "Regular", "Coffee");
 
                 // Use orderController to add drink to the current order
-                orderController.addDrinkToOrder(currentOrder, drink);
+                orderController.addDrinkToOrder(drink);
 
                 // Update OrderView
                 orderView.addDrinkToOrder(drink);
@@ -155,27 +156,10 @@ public class MenuView {
     }
 
     private void showSuccessMessage(String message) {
-        Stage successStage = new Stage();
-        successStage.initModality(Modality.APPLICATION_MODAL);
-        successStage.setTitle("Success");
-
-        VBox vbox = new VBox();
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setPadding(new Insets(20));
-        vbox.setSpacing(10);
-
-        Text text = new Text(message);
-        text.setFont(Font.font("Verdana", 14));
-        Button closeButton = new Button("OK");
-        closeButton.setOnAction(e -> successStage.close());
-
-        vbox.getChildren().addAll(text, closeButton);
-
-        Scene scene = new Scene(vbox, 300, 150);
-        successStage.setScene(scene);
-        successStage.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
-
 }
-
-
