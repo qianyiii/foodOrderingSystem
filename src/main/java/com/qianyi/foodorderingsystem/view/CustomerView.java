@@ -25,7 +25,7 @@ public class CustomerView {
         customerLayout.setPadding(new Insets(20));
 
         // Create the "Back" label
-        Label backLabel = new Label("Back");
+        Label backLabel = new Label("<- Back");
         backLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: blue;");
         backLabel.setOnMouseClicked(event -> stage.setScene(mainScene));  // Go back to the main view on click
 

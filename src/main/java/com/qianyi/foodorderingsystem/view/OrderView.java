@@ -50,7 +50,7 @@ public class OrderView {
             Drink selectedDrink = drinkListView.getSelectionModel().getSelectedItem();
             if (selectedDrink != null) {
                 orderController.addDrinkToOrder(selectedDrink);
-                orderListView.getItems().add(selectedDrink);
+                updateOrderList(); // 更新订单列表视图
                 updateTotalPrice();
             }
         });
@@ -59,7 +59,7 @@ public class OrderView {
             Drink selectedDrink = orderListView.getSelectionModel().getSelectedItem();
             if (selectedDrink != null) {
                 orderController.removeDrinkFromOrder(selectedDrink);
-                orderListView.getItems().remove(selectedDrink);
+                updateOrderList(); // 更新订单列表视图
                 updateTotalPrice();
             }
         });
@@ -119,6 +119,11 @@ public class OrderView {
         } else {
             showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a drink to remove.");
         }
+    }
+
+    private void updateOrderList() {
+        orderListView.getItems().clear(); // 清空当前列表
+        orderListView.getItems().addAll(orderController.getOrderItems()); // 从 controller 获取当前订单中的所有饮料
     }
 
     private void updateTotalPrice() {

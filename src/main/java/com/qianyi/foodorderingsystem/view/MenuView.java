@@ -3,48 +3,70 @@ package com.qianyi.foodorderingsystem.view;
 import com.qianyi.foodorderingsystem.controller.OrderController;
 import com.qianyi.foodorderingsystem.model.Customer;
 import com.qianyi.foodorderingsystem.model.Drink;
-import com.qianyi.foodorderingsystem.model.Order;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MenuView {
 
     private BorderPane menuLayout;
-    private List<String> orderedItems;
     private OrderController orderController;
-    private Order currentOrder;
     private OrderView orderView;
+    private GridPane gridPane;
+    private Map<String, Drink[]> categoryDrinksMap;
 
     public MenuView(Stage primaryStage, Scene mainScene, OrderController orderController) {
         this.orderController = orderController;
         this.orderView = new OrderView(orderController);
+        this.gridPane = new GridPane();
+        this.categoryDrinksMap = new HashMap<>();
 
-        menuLayout = new BorderPane();
-        orderedItems = new ArrayList<>();
+        // Sample data for drinks categorized
+        categoryDrinksMap.put("Coffee", new Drink[]{
+                new Drink(1, "Cappuccino", 5.99, "Regular", "Coffee"),
+                new Drink(2, "Espresso", 3.99, "Regular", "Coffee"),
+                new Drink(3, "Latte", 4.99, "Regular", "Coffee"),
+                new Drink(4, "Mocha", 6.65, "Regular", "Coffee")
+        });
+        categoryDrinksMap.put("Juice", new Drink[]{
+                new Drink(5, "Orange Juice", 4.50, "Regular", "Juice"),
+                new Drink(6, "Grapefruit Juice", 4.00, "Regular", "Juice"),
+                new Drink(7, "Watermelon Juice", 4.00, "Regular", "Juice"),
+                new Drink(8, "Kiwi Juice", 4.00, "Regular", "Juice")
+        });
+        categoryDrinksMap.put("Tea", new Drink[]{
+                new Drink(9, "Black Tea", 3.00, "Regular", "Tea"),
+                new Drink(10, "Jasmine Tea", 3.50, "Regular", "Tea"),
+                new Drink(11, "Lemon Tea", 3.50, "Regular", "Tea"),
+                new Drink(12, "Oolong Tea", 3.50, "Regular", "Tea")
+        });
 
+        // Create a new order for a customer
         Customer customer = new Customer(1, "qy", "01234567", "qy@email.com");
         orderController.createNewOrder(customer);
 
+        menuLayout = new BorderPane();
+
         menuLayout.setTop(createTopBar(primaryStage, mainScene));
         menuLayout.setLeft(createLeftBar());
-        menuLayout.setCenter(displayMenu());
+        menuLayout.setCenter(displayMenu("Coffee")); // Default category
         menuLayout.setRight(orderView.getOrderLayout());
     }
 
@@ -52,15 +74,10 @@ public class MenuView {
         return menuLayout;
     }
 
-    public List<String> getOrderedItems() {
-        return orderedItems;
-    }
-
     private MenuBar createTopBar(Stage primaryStage, Scene mainScene) {
         MenuBar menuBar = new MenuBar();
-        menuBar.setStyle("-fx-background-color: #3d3d3d; -fx-color: #000000");
 
-        Menu menuMenu = new Menu("Options");
+        javafx.scene.control.Menu menuMenu = new javafx.scene.control.Menu("Options");
         MenuItem backMenuItem = new MenuItem("Back");
 
         backMenuItem.setOnAction(e -> primaryStage.setScene(mainScene));
@@ -71,35 +88,55 @@ public class MenuView {
         return menuBar;
     }
 
+    // Corrected Left Bar with category buttons
     private VBox createLeftBar() {
         VBox vb = new VBox();
+        vb.setSpacing(10); // Add spacing between buttons
+        vb.setPadding(new Insets(10));
 
-        MenuButton itemDrink1 = new MenuButton("Coffee");
+        Button itemDrink1 = new Button("Coffee");
         itemDrink1.setPrefWidth(150);
-        MenuButton itemDrink2 = new MenuButton("Juice");
+        itemDrink1.setOnAction(e -> {
+            menuLayout.setCenter(displayMenu("Coffee"));
+        });
+
+        Button itemDrink2 = new Button("Juice");
         itemDrink2.setPrefWidth(150);
-        MenuButton itemDrink3 = new MenuButton("Tea");
+        itemDrink2.setOnAction(e -> {
+            menuLayout.setCenter(displayMenu("Juice"));
+        });
+
+        Button itemDrink3 = new Button("Tea");
         itemDrink3.setPrefWidth(150);
+        itemDrink3.setOnAction(e -> {
+            menuLayout.setCenter(displayMenu("Tea"));
+        });
 
         vb.getChildren().addAll(itemDrink1, itemDrink2, itemDrink3);
 
         return vb;
     }
 
-    private GridPane displayMenu() {
+    // Display the selected category's drinks
+    private GridPane displayMenu(String category) {
         GridPane grid = new GridPane();
+        grid.setHgap(20); // Horizontal spacing between grid elements
+        grid.setVgap(20); // Vertical spacing between grid elements
 
         int col = 0;
         int row = 0;
-        int rowLabel = 1;
-        String[] drinkNames = {"Cappuccino", "Espresso", "Latte", "Mocha"};
-        double[] prices = {5.99, 3.99, 4.99, 6.65};
-        Button btnOrder;
+        Drink[] drinks = categoryDrinksMap.get(category);
+
+        if (drinks == null) {
+            System.out.println("No drinks available for category: " + category);
+            return grid; // No drinks for this category
+        }
+
         Font font = Font.font("Verdana", FontWeight.BOLD, 15);
 
-        for (int i = 0; i < drinkNames.length; i++) {
-
-            String imagePath = "/com/qianyi/foodorderingsystem/coffee" + (i + 1) + ".png";
+        for (int i = 0; i < drinks.length; i++) {
+            Drink drink = drinks[i];
+            String imagePath = "/com/qianyi/foodorderingsystem/" + category.toLowerCase() + (i + 1) + ".png";
             URL resourceUrl = getClass().getResource(imagePath);
 
             if (resourceUrl == null) {
@@ -114,41 +151,31 @@ public class MenuView {
             imageView.setFitHeight(150);
             imageView.setPreserveRatio(true);
 
-            grid.add(imageView, col, row, 1, 1);
+            // Add the image to the grid
+            grid.add(imageView, col, row);
 
             HBox hb = new HBox();
-            hb.setSpacing(60);
+            hb.setSpacing(20);
             hb.setPadding(new Insets(10));
-            Text txtPrice = new Text("From RM" + prices[i]);
+            Text txtPrice = new Text("From RM" + drink.getPrice());
             txtPrice.setFont(font);
             txtPrice.setFill(Color.GREEN);
-            btnOrder = new Button("Add to Order");
+            Button btnOrder = new Button("Add to Order");
 
-            final String itemName = drinkNames[i];
-            final double price = prices[i];
             btnOrder.setOnAction(e -> {
-                // Create Drink object
-                Drink drink = new Drink(1, itemName, price, "Regular", "Coffee");
-
-                // Use orderController to add drink to the current order
                 orderController.addDrinkToOrder(drink);
-
-                // Update OrderView
                 orderView.addDrinkToOrder(drink);
-
-                showSuccessMessage("Successfully added " + itemName + " to order!");
+                showSuccessMessage("Successfully added " + drink.getName() + " to order!");
             });
 
             hb.getChildren().addAll(txtPrice, btnOrder);
-
-            grid.add(hb, col, rowLabel, 1, 1);
+            grid.add(hb, col, row + 1);
 
             if (col < 1) {
                 col++;
             } else {
-                row += 2;
-                rowLabel += 2;
                 col = 0;
+                row += 2;
             }
         }
 

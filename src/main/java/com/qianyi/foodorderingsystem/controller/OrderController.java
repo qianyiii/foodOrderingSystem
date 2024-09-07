@@ -23,19 +23,35 @@ public class OrderController {
     }
 
     public void addDrinkToOrder(Drink drink) {
-        currentOrder.addDrink(drink);
+        if (currentOrder != null) {
+            currentOrder.addDrink(drink);
+        }
     }
 
     public void removeDrinkFromOrder(Drink drink) {
-        currentOrder.removeDrink(drink);
+        if (currentOrder != null) {
+            currentOrder.removeDrink(drink);
+        }
     }
 
     public double getTotalPrice() {
-        return currentOrder.getDrinks().stream().mapToDouble(Drink::getPrice).sum();
+        if (currentOrder != null) {
+            return currentOrder.getDrinks().stream().mapToDouble(Drink::getPrice).sum();
+        }
+        return 0.0;
+    }
+
+    public List<Drink> getOrderItems() {
+        if (currentOrder != null) {
+            return currentOrder.getDrinks();
+        }
+        return List.of(); // 如果没有当前订单，返回一个空的列表
     }
 
     public void saveOrder() throws SQLException {
-        orderService.saveOrder(currentOrder);
+        if (currentOrder != null) {
+            orderService.saveOrder(currentOrder);
+        }
     }
 
     public void createNewOrder(Customer customer) {

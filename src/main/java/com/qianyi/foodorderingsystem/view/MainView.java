@@ -104,7 +104,7 @@ public class MainView {
             String phoneNumber = phoneField.getText();
             customerName = getCustomerNameByPhone(phoneNumber);
             if (customerName != null) {
-                welcomeLabel.setText("Hi, " + customerName + "! Welcome to Drink Ordering System!");
+                welcomeLabel.setText("Hi, " + customerName + "!" + "\nWelcome to Drink Ordering System!");
                 loginLabel.setText("Logout");
                 loginStage.close();
             } else {
