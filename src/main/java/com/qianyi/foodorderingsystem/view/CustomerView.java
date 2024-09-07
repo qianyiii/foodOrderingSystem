@@ -1,15 +1,19 @@
 package com.qianyi.foodorderingsystem.view;
 
 import com.qianyi.foodorderingsystem.util.DatabaseUtil;
+import com.qianyi.foodorderingsystem.util.ValidationUtil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.util.regex.Pattern;
 
 public class CustomerView {
 
@@ -61,8 +65,10 @@ public class CustomerView {
         // Button to submit customer information
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(e -> {
-            insertCustomerData(nameField.getText(), phoneField.getText(), emailField.getText());
-            showSuccessMessage(stage);
+            if (isValidCustomerData(nameField.getText(), phoneField.getText(), emailField.getText())) {
+                insertCustomerData(nameField.getText(), phoneField.getText(), emailField.getText());
+                showSuccessMessage(stage);
+            }
         });
 
         // Add components to the layout
@@ -134,6 +140,48 @@ public class CustomerView {
                 new BackgroundSize(100, 100, true, true, false, true)
         );
         customerLayout.setBackground(new Background(backgroundImage));
+    }
+
+    private boolean isValidCustomerData(String name, String phone, String email) {
+        if (!ValidationUtil.isValidString(name) || !ValidationUtil.isValidString(phone) || !ValidationUtil.isValidString(email)) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "All fields are required.");
+            return false;
+        }
+        if (!isValidName(name)) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "Name can only contain English letters.");
+            return false;
+        }
+        if (!isValidPhoneNumber(phone)) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "Phone number must be numeric.");
+            return false;
+        }
+        if (!isValidEmail(email)) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "Invalid email format.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidName(String name) {
+        return Pattern.matches("[a-zA-Z]+", name);
+    }
+
+    private boolean isValidPhoneNumber(String phone) {
+        return Pattern.matches("\\d+", phone);
+    }
+
+    private boolean isValidEmail(String email) {
+        // Basic email pattern, adjust as needed
+        return Pattern.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", email);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.initOwner(customerLayout.getScene().getWindow());
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public BorderPane getCustomerLayout() {
