@@ -7,9 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class CustomerView {
@@ -23,6 +22,9 @@ public class CustomerView {
         // Initialize the layout
         customerLayout = new BorderPane();
         customerLayout.setPadding(new Insets(20));
+
+        // Set full-screen background image
+        setBackgroundImage("/com/qianyi/foodorderingsystem/Background3.png");
 
         // Create the "Back" label
         Label backLabel = new Label("<- Back");
@@ -120,6 +122,18 @@ public class CustomerView {
         messageStage.setScene(scene);
         messageStage.initOwner(parentStage); // Set the parent window
         messageStage.showAndWait(); // Block the parent window until this one is closed
+    }
+
+    private void setBackgroundImage(String imagePath) {
+        Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, false, true)
+        );
+        customerLayout.setBackground(new Background(backgroundImage));
     }
 
     public BorderPane getCustomerLayout() {

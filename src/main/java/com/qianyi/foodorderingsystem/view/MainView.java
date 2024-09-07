@@ -10,9 +10,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
@@ -43,6 +43,10 @@ public class MainView {
         mainLayout = new BorderPane();
         mainLayout.setPadding(new Insets(20));
 
+        // Set full-screen background image
+        setBackground();
+
+
         // Initialize center layout
         centerLayout = new VBox(20);
         centerLayout.setAlignment(Pos.CENTER);
@@ -62,10 +66,49 @@ public class MainView {
         welcomeLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         centerLayout.getChildren().add(welcomeLabel);
 
+        // Store the background image path for buttons
+        String buttonBackgroundImage = getClass().getResource("/com/qianyi/foodorderingsystem/button2.png").toExternalForm();
+
+        // Load the custom font from resources
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/com/qianyi/foodorderingsystem/KalamRegular.ttf"), 17);
+
+
         // Initialize buttons to navigate to other views
         menuButton = new Button("View Menu");
         orderButton = new Button("Place Order");
         customerButton = new Button("Customer Information");
+
+        // Apply the custom font to buttons
+        menuButton.setFont(customFont);
+        orderButton.setFont(customFont);
+        customerButton.setFont(customFont);
+
+        // Set button width and height
+        double buttonWidth = 200;
+        double buttonHeight = 40;
+
+        menuButton.setMinWidth(buttonWidth);
+        menuButton.setMaxWidth(buttonWidth);
+        menuButton.setMinHeight(buttonHeight);
+        menuButton.setMaxHeight(buttonHeight);
+
+        orderButton.setMinWidth(buttonWidth);
+        orderButton.setMaxWidth(buttonWidth);
+        orderButton.setMinHeight(buttonHeight);
+        orderButton.setMaxHeight(buttonHeight);
+
+        customerButton.setMinWidth(buttonWidth);
+        customerButton.setMaxWidth(buttonWidth);
+        customerButton.setMinHeight(buttonHeight);
+        customerButton.setMaxHeight(buttonHeight);
+
+        // Apply the same background image to each button
+        menuButton.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
+                "-fx-background-size: cover; -fx-text-fill: black;");
+        orderButton.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
+                "-fx-background-size: cover; -fx-text-fill: black; ");
+        customerButton.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
+                "-fx-background-size: cover; -fx-text-fill: black;");
 
         // Add buttons to the center layout
         centerLayout.getChildren().addAll(menuButton, orderButton, customerButton);
@@ -75,6 +118,37 @@ public class MainView {
 
         // Attach event handlers
         orderButton.setOnAction(event -> navigateToOrderView());
+    }
+
+    // Add this method to load and set the font for welcomeLabel
+    private void setCustomFont() {
+        // Load the custom font from resources
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/com/qianyi/foodorderingsystem/KalamRegular.ttf"), 24);
+
+        // Apply the custom font to welcomeLabel
+        if (customFont != null) {
+            welcomeLabel.setFont(customFont);
+        } else {
+            // Fallback font in case the custom font cannot be loaded
+            welcomeLabel.setFont(Font.font("Arial", 24));
+        }
+    }
+
+    private void setBackground() {
+        // Load the image for background
+        Image backgroundImage = new Image(getClass().getResource("/com/qianyi/foodorderingsystem/Background.png").toExternalForm());
+
+        // Create a BackgroundImage object
+        BackgroundImage background = new BackgroundImage(
+                backgroundImage,
+                BackgroundRepeat.NO_REPEAT, // Repeat setting for X
+                BackgroundRepeat.NO_REPEAT, // Repeat setting for Y
+                BackgroundPosition.CENTER,  // Position of the background image
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)
+        );
+
+        // Set the background to the main layout
+        mainLayout.setBackground(new Background(background));
     }
 
     private void handleLoginLogout(Stage parentStage) {

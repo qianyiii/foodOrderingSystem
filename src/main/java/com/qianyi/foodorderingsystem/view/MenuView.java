@@ -4,11 +4,9 @@ import com.qianyi.foodorderingsystem.controller.OrderController;
 import com.qianyi.foodorderingsystem.model.Customer;
 import com.qianyi.foodorderingsystem.model.Drink;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -63,6 +61,11 @@ public class MenuView {
         orderController.createNewOrder(customer);
 
         menuLayout = new BorderPane();
+        menuLayout.setPadding(new Insets(20));
+
+
+        // Set background image
+        setBackground("/com/qianyi/foodorderingsystem/Background2.png");
 
         menuLayout.setTop(createTopBar(primaryStage, mainScene));
         menuLayout.setLeft(createLeftBar());
@@ -74,47 +77,81 @@ public class MenuView {
         return menuLayout;
     }
 
-    private MenuBar createTopBar(Stage primaryStage, Scene mainScene) {
-        MenuBar menuBar = new MenuBar();
+    private HBox createTopBar(Stage primaryStage, Scene mainScene) {
+        // Create the "Back" label
+        Label backLabel = new Label("<- Back");
+        backLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: blue;");
+        backLabel.setOnMouseClicked(e -> primaryStage.setScene(mainScene)); // Go back to the main view on click
 
-        javafx.scene.control.Menu menuMenu = new javafx.scene.control.Menu("Options");
-        MenuItem backMenuItem = new MenuItem("Back");
+        // Position the "Back" button at the top-left corner
+        HBox topBar = new HBox(backLabel);
+        topBar.setAlignment(Pos.TOP_LEFT);
+        menuLayout.setTop(topBar);
 
-        backMenuItem.setOnAction(e -> primaryStage.setScene(mainScene));
-        menuMenu.getItems().add(backMenuItem);
-
-        menuBar.getMenus().addAll(menuMenu);
-
-        return menuBar;
+        return topBar;
     }
 
     // Corrected Left Bar with category buttons
     private VBox createLeftBar() {
         VBox vb = new VBox();
-        vb.setSpacing(10); // Add spacing between buttons
+        vb.setSpacing(20); // Add spacing between buttons
         vb.setPadding(new Insets(10));
 
-        Button itemDrink1 = new Button("Coffee");
+        // Store the background image path once
+        String buttonBackgroundImage = getClass().getResource("/com/qianyi/foodorderingsystem/buttonBackground.png").toExternalForm();
+
+        // Button for Coffee category
+        Button itemDrink1 = new Button();
         itemDrink1.setPrefWidth(150);
-        itemDrink1.setOnAction(e -> {
-            menuLayout.setCenter(displayMenu("Coffee"));
-        });
+        itemDrink1.setPrefHeight(30);
+        itemDrink1.setText("Coffee");
 
-        Button itemDrink2 = new Button("Juice");
+        // Apply the same background image style
+        itemDrink1.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
+                "-fx-background-size: cover; " +
+                "-fx-text-fill: black; " +
+                "-fx-font-weight: bold;");
+        itemDrink1.setOnAction(e -> menuLayout.setCenter(displayMenu("Coffee")));
+
+        // Button for Juice category
+        Button itemDrink2 = new Button();
         itemDrink2.setPrefWidth(150);
-        itemDrink2.setOnAction(e -> {
-            menuLayout.setCenter(displayMenu("Juice"));
-        });
+        itemDrink2.setPrefHeight(30);
+        itemDrink2.setText("Juice");
 
-        Button itemDrink3 = new Button("Tea");
+        // Reuse the same background image style
+        itemDrink2.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
+                "-fx-background-size: cover; " +
+                "-fx-text-fill: black; " +
+                "-fx-font-weight: bold;");
+        itemDrink2.setOnAction(e -> menuLayout.setCenter(displayMenu("Juice")));
+
+        // Button for Tea category
+        Button itemDrink3 = new Button();
         itemDrink3.setPrefWidth(150);
-        itemDrink3.setOnAction(e -> {
-            menuLayout.setCenter(displayMenu("Tea"));
-        });
+        itemDrink3.setPrefHeight(30);
+        itemDrink3.setText("Tea");
+        // Reuse the same background image style
+        itemDrink3.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
+                "-fx-background-size: cover; " +
+                "-fx-text-fill: black; " +
+                "-fx-font-weight: bold;");
+        itemDrink3.setOnAction(e -> menuLayout.setCenter(displayMenu("Tea")));
 
+        // Add buttons to the VBox
         vb.getChildren().addAll(itemDrink1, itemDrink2, itemDrink3);
 
         return vb;
+    }
+
+    // Method to set background image for the menu layout
+    private void setBackground(String imagePath) {
+        Image backgroundImage = new Image(getClass().getResource(imagePath).toExternalForm());
+        BackgroundImage bgImage = new BackgroundImage(backgroundImage,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER, new BackgroundSize(100, 100, true, true, false, true));
+
+        menuLayout.setBackground(new Background(bgImage));
     }
 
     // Display the selected category's drinks
