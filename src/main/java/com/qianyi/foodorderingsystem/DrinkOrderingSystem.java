@@ -71,7 +71,6 @@ public class DrinkOrderingSystem extends Application {
 
         // Set up buttons to switch views
         mainView.getMenuButton().setOnAction(e -> showMenuView(stage));
-        mainView.getOrderButton().setOnAction(e -> showOrderView(stage));
         mainView.getCustomerButton().setOnAction(e -> showCustomerView(stage));
 
         stage.setScene(mainScene);
@@ -81,17 +80,6 @@ public class DrinkOrderingSystem extends Application {
         menuView = new MenuView(stage, stage.getScene(), orderController); // Pass orderController to MenuView
         Scene menuScene = new Scene(menuView.getMenuLayout(), 1000, 630);
         stage.setScene(menuScene);
-    }
-
-    private void showOrderView(Stage stage) {
-        if (menuView != null) {
-            OrderView orderView = new OrderView(orderController);
-            Scene orderScene = new Scene(orderView.getOrderLayout(), 600, 400);
-            stage.setScene(orderScene);
-        } else {
-            // Provide feedback if the menuView is not initialized
-            System.out.println("Please select items from the menu first.");
-        }
     }
 
     private void showCustomerView(Stage stage) {

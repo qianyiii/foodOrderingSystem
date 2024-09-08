@@ -7,14 +7,12 @@ import java.util.List;
 public class FileUtil {
 
     // Method to write data to a file
-    public static void writeToFile(String filePath, List<String> data) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (String line : data) {
-                writer.write(line);
-                writer.newLine();
-            }
+    public static void writeOrderToFile(String filePath, String orderSummary) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(orderSummary);
+            writer.newLine(); // Add a newline for each new order
         } catch (IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -2,6 +2,7 @@ package com.qianyi.foodorderingsystem.view;
 
 import com.qianyi.foodorderingsystem.controller.OrderController;
 import com.qianyi.foodorderingsystem.model.Drink;
+import com.qianyi.foodorderingsystem.util.FileUtil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -12,15 +13,17 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class OrderView {
     private OrderController orderController;
     private VBox orderLayout;
-    private ListView<Drink> drinkListView;
-    private ListView<Drink> orderListView;
+    private ListView<OrderItem> orderListView;
     private Label totalPriceLabel;
     private Button removeButton;
     private Button confirmButton;
+    private static final String ORDER_HISTORY_FILE = "order_history.txt"; // Specify your file path
+
 
     public OrderView(OrderController orderController) {
         this.orderController = orderController;
@@ -35,26 +38,13 @@ public class OrderView {
         Text title = new Text("Place Your Order");
         title.setFont(Font.font(20));
 
-        // Available drinks list
-        drinkListView = new ListView<>();
-        drinkListView.setPrefHeight(200);
-
         // Order items list
         orderListView = new ListView<>();
         orderListView.setPrefHeight(500);
 
         // Buttons
         removeButton = new Button("<< Remove");
-        removeButton.setOnAction(e -> {
-            Drink selectedDrink = orderListView.getSelectionModel().getSelectedItem();
-            if (selectedDrink != null) {
-                orderController.removeDrinkFromOrder(selectedDrink);
-                updateOrderList(); // Update the order list view
-                updateTotalPrice();
-            } else {
-                showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a drink to remove.");
-            }
-        });
+        removeButton.setOnAction(e -> removeDrinkFromOrder());
 
         confirmButton = new Button("Confirm Order");
         confirmButton.setOnAction(e -> confirmOrder());
@@ -70,20 +60,35 @@ public class OrderView {
                 confirmButton
         );
 
+        orderListView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(OrderItem item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
+
         // Load drinks data
         try {
             List<Drink> drinks = orderController.getAvailableDrinks();
-            drinkListView.getItems().addAll(drinks);
+            // You should have a way to set drinks in the view if necessary
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Data Load Error", "Failed to load available drinks.");
         }
+
+        updateOrderList();
+        updateTotalPrice();
     }
 
     public void addDrinkToOrder(Drink drink) {
         if (drink != null && drink.getId() > 0) {
             orderController.addDrinkToOrder(drink);
-            orderListView.getItems().add(drink);
+            updateOrderList();
             updateTotalPrice();
         } else {
             showAlert(Alert.AlertType.WARNING, "Invalid Drink", "Selected drink has an invalid ID.");
@@ -91,10 +96,11 @@ public class OrderView {
     }
 
     private void removeDrinkFromOrder() {
-        Drink selectedDrink = orderListView.getSelectionModel().getSelectedItem();
-        if (selectedDrink != null) {
+        OrderItem selectedItem = orderListView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            Drink selectedDrink = selectedItem.getDrink();
             orderController.removeDrinkFromOrder(selectedDrink);
-            orderListView.getItems().remove(selectedDrink);
+            updateOrderList();
             updateTotalPrice();
         } else {
             showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a drink to remove.");
@@ -102,8 +108,10 @@ public class OrderView {
     }
 
     private void updateOrderList() {
-        orderListView.getItems().clear(); // 清空当前列表
-        orderListView.getItems().addAll(orderController.getOrderItems()); // 从 controller 获取当前订单中的所有饮料
+        orderListView.getItems().clear();
+        for (Map.Entry<Drink, Integer> entry : orderController.getOrderItems().entrySet()) {
+            orderListView.getItems().add(new OrderItem(entry.getKey(), entry.getValue()));
+        }
     }
 
     private void updateTotalPrice() {
@@ -119,14 +127,33 @@ public class OrderView {
 
         try {
             orderController.saveOrder(); // This may throw SQLException
-            showAlert(Alert.AlertType.INFORMATION, "Order Confirmed", "Your order has been placed successfully!");
-            // Close the order window after confirmation
-            Stage stage = (Stage) orderLayout.getScene().getWindow();
-            stage.close();
+
+            // Display order details in a new alert
+            String orderSummary = getOrderSummary();
+            showAlert(Alert.AlertType.INFORMATION, "Order Confirmed", orderSummary);
+
+            // Save order summary to file
+            FileUtil.writeOrderToFile(ORDER_HISTORY_FILE, orderSummary);
+
+            // Optionally clear the order view or reset for the next order
+            orderListView.getItems().clear();
+            updateTotalPrice();
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Order Failed", "Failed to save order to the database.");
         }
+    }
+
+    private String getOrderSummary() {
+        StringBuilder summary = new StringBuilder("Order Summary:\n\n");
+
+        for (OrderItem item : orderListView.getItems()) {
+            summary.append(String.format("%s (x%d) - RM%.2f\n", item.getDrink().getName(), item.getQuantity(), item.getSubtotal()));
+        }
+
+        summary.append(String.format("\nTotal Price: RM%.2f", orderController.getTotalPrice()));
+
+        return summary.toString();
     }
 
     public VBox getOrderLayout() {
@@ -141,6 +168,31 @@ public class OrderView {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private class OrderItem {
+        private Drink drink;
+        private int quantity;
+
+        public OrderItem(Drink drink, int quantity) {
+            this.drink = drink;
+            this.quantity = quantity;
+        }
+
+        public Drink getDrink() {
+            return drink;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public double getSubtotal() {
+            return drink.getPrice() * quantity;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s (x%d) - RM%.2f", drink.getName(), quantity, getSubtotal());
+        }
+    }
 }
-
-

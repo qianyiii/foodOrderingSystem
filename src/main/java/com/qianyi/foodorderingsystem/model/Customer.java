@@ -1,12 +1,12 @@
 package com.qianyi.foodorderingsystem.model;
 
 public class Customer {
-    private int customerId;
+    private Integer customerId;
     private String name;
     private String phone;
     private String email;
 
-    public Customer(int customerId, String name, String phone, String email) {
+    public Customer(Integer customerId, String name, String phone, String email) {
         this.customerId = customerId;
         this.name = name;
         this.phone = phone;

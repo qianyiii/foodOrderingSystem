@@ -1,7 +1,12 @@
 package com.qianyi.foodorderingsystem.service;
 
 import com.qianyi.foodorderingsystem.model.Customer;
+import com.qianyi.foodorderingsystem.util.DatabaseUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +15,29 @@ public class CustomerService {
 
     public CustomerService() {
         customers = new ArrayList<>();
+    }
+
+    public static Customer authenticateCustomer(String email, String phone) {
+        String query = "SELECT * FROM customers WHERE email = ? AND phone = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            pstmt.setString(2, phone);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new Customer(
+                        rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle SQL exceptions
+        }
+        return null; // Customer not found
     }
 
     // 创建新顾客

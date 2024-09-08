@@ -1,8 +1,6 @@
 package com.qianyi.foodorderingsystem.view;
 
-import com.qianyi.foodorderingsystem.controller.OrderController;
 import com.qianyi.foodorderingsystem.model.Customer;
-import com.qianyi.foodorderingsystem.service.OrderService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,13 +27,11 @@ public class MainView {
     private BorderPane mainLayout;
     private VBox centerLayout;
     private Button menuButton;
-    private Button orderButton;
     private Button customerButton;
     private Label welcomeLabel;
     private Label loginLabel;
     private String customerName;
 
-    private OrderController orderController;
     private Customer currentCustomer;
 
     public MainView(Stage stage) {
@@ -75,12 +71,10 @@ public class MainView {
 
         // Initialize buttons to navigate to other views
         menuButton = new Button("View Menu");
-        orderButton = new Button("Place Order");
         customerButton = new Button("Customer Information");
 
         // Apply the custom font to buttons
         menuButton.setFont(customFont);
-        orderButton.setFont(customFont);
         customerButton.setFont(customFont);
 
         // Set button width and height
@@ -92,11 +86,6 @@ public class MainView {
         menuButton.setMinHeight(buttonHeight);
         menuButton.setMaxHeight(buttonHeight);
 
-        orderButton.setMinWidth(buttonWidth);
-        orderButton.setMaxWidth(buttonWidth);
-        orderButton.setMinHeight(buttonHeight);
-        orderButton.setMaxHeight(buttonHeight);
-
         customerButton.setMinWidth(buttonWidth);
         customerButton.setMaxWidth(buttonWidth);
         customerButton.setMinHeight(buttonHeight);
@@ -105,19 +94,11 @@ public class MainView {
         // Apply the same background image to each button
         menuButton.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
                 "-fx-background-size: cover; -fx-text-fill: black;");
-        orderButton.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
-                "-fx-background-size: cover; -fx-text-fill: black; ");
         customerButton.setStyle("-fx-background-image: url('" + buttonBackgroundImage + "'); " +
                 "-fx-background-size: cover; -fx-text-fill: black;");
 
         // Add buttons to the center layout
-        centerLayout.getChildren().addAll(menuButton, orderButton, customerButton);
-
-        // Initialize OrderController
-        orderController = new OrderController(new OrderService());
-
-        // Attach event handlers
-        orderButton.setOnAction(event -> navigateToOrderView());
+        centerLayout.getChildren().addAll(menuButton,customerButton);
     }
 
     // Add this method to load and set the font for welcomeLabel
@@ -175,7 +156,13 @@ public class MainView {
         // Create login button
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
-            String phoneNumber = phoneField.getText();
+            String phoneNumber = phoneField.getText().trim();
+            if (phoneNumber.isEmpty()) {
+                phoneField.clear();
+                phoneLabel.setText("Phone number cannot be empty. Please try again:");
+                return;
+            }
+
             customerName = getCustomerNameByPhone(phoneNumber);
             if (customerName != null) {
                 welcomeLabel.setText("Hi, " + customerName + "!" + "\nWelcome to Drink Ordering System!");
@@ -193,7 +180,7 @@ public class MainView {
         loginLayout.setAlignment(Pos.CENTER);
 
         // Set the scene and show the stage
-        Scene loginScene = new Scene(loginLayout, 300, 150);
+        Scene loginScene = new Scene(loginLayout, 330, 150);
         loginStage.setScene(loginScene);
         loginStage.showAndWait();
     }
@@ -254,22 +241,6 @@ public class MainView {
         return mainLayout;
     }
 
-    private void navigateToOrderView() {
-        if (currentCustomer != null) {
-            orderController.createNewOrder(currentCustomer);
-            OrderView orderView = new OrderView(orderController);
-            Stage orderStage = new Stage();
-            orderStage.setTitle("Order View");
-            orderStage.initOwner(mainLayout.getScene().getWindow());
-            orderStage.setScene(new Scene(orderView.getOrderLayout(), 500, 600));
-            orderStage.show();
-        } else {
-            showAlert(Alert.AlertType.WARNING, "No Customer", "Please log in before placing an order.");
-        }
-    }
-
-
-
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
@@ -284,9 +255,6 @@ public class MainView {
         return menuButton;
     }
 
-    public Button getOrderButton() {
-        return orderButton;
-    }
 
     public Button getCustomerButton() {
         return customerButton;
