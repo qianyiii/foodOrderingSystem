@@ -16,12 +16,28 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * The main entry point of the Drink Ordering System application.
+ * <p>
+ * This class extends {@link Application} and initializes the application's primary user interface.
+ * It sets up the initial scene with a welcome image and label, and handles transitions to different views of the application.
+ * </p>
+ */
 public class DrinkOrderingSystem extends Application {
 
     private MenuView menuView;
     private OrderService orderService;
     private OrderController orderController;
 
+    /**
+     * Initializes and displays the primary stage of the application.
+     * <p>
+     * This method is called by the JavaFX runtime to start the application. It sets up the initial user interface,
+     * including the welcome image and label, and binds their properties to the stage's dimensions.
+     * </p>
+     *
+     * @param stage the primary stage for this application.
+     */
     @Override
     public void start(Stage stage) {
         // Initialize the OrderService and OrderController
@@ -65,6 +81,15 @@ public class DrinkOrderingSystem extends Application {
         stage.show();
     }
 
+    /**
+     * Displays the main view of the application.
+     * <p>
+     * This method sets up the main view scene, initializes the {@link MainView} with the primary stage,
+     * and sets up event handlers for switching between different views.
+     * </p>
+     *
+     * @param stage the primary stage for this application.
+     */
     private void showMainView(Stage stage) {
         MainView mainView = new MainView(stage);
         Scene mainScene = new Scene(mainView.getMainLayout(), 600, 400);
@@ -76,12 +101,30 @@ public class DrinkOrderingSystem extends Application {
         stage.setScene(mainScene);
     }
 
+    /**
+     * Displays the menu view of the application.
+     * <p>
+     * This method initializes the {@link MenuView} with the primary stage and the {@link OrderController},
+     * then sets up the scene to display the menu.
+     * </p>
+     *
+     * @param stage the primary stage for this application.
+     */
     private void showMenuView(Stage stage) {
         menuView = new MenuView(stage, stage.getScene(), orderController); // Pass orderController to MenuView
         Scene menuScene = new Scene(menuView.getMenuLayout(), 1000, 630);
         stage.setScene(menuScene);
     }
 
+    /**
+     * Displays the customer view of the application.
+     * <p>
+     * This method initializes the {@link CustomerView} with the primary stage and the current scene,
+     * then sets up the scene to display the customer view.
+     * </p>
+     *
+     * @param stage the primary stage for this application.
+     */
     private void showCustomerView(Stage stage) {
         Scene mainScene = stage.getScene(); // Store the current main scene
         CustomerView customerView = new CustomerView(stage, mainScene); // Pass the stage and mainScene to CustomerView
@@ -89,6 +132,11 @@ public class DrinkOrderingSystem extends Application {
         stage.setScene(customerScene);
     }
 
+    /**
+     * The main method that launches the JavaFX application.
+     *
+     * @param args command line arguments.
+     */
     public static void main(String[] args) {
         launch();
     }
