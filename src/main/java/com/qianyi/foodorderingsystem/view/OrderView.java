@@ -156,18 +156,22 @@ public class OrderView {
         }
 
         try {
+            // Save the order to the database
             orderController.saveOrder(); // This may throw SQLException
 
-            // Display order details in a new alert
+            // Generate the order summary
             String orderSummary = getOrderSummary();
+
+            // Show the order summary in a confirmation alert
             showAlert(Alert.AlertType.INFORMATION, "Order Confirmed", orderSummary);
 
-            // Save order summary to file
+            // Save the order summary to a file
             FileUtil.writeOrderToFile(ORDER_HISTORY_FILE, orderSummary);
 
-            // Optionally clear the order view or reset for the next order
-            orderListView.getItems().clear();
-            updateTotalPrice();
+            // Once the user dismisses the alert, clear the order list and reset the total price
+            orderListView.getItems().clear(); // Clear the order list
+            totalPriceLabel.setText("Total Price: RM0.00"); // Reset total price label
+
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Order Failed", "Failed to save order to the database.");
