@@ -229,7 +229,6 @@ public class MenuView {
             Button btnOrder = new Button("Add to Order");
 
             btnOrder.setOnAction(e -> {
-                orderController.addDrinkToOrder(drink);
                 orderView.addDrinkToOrder(drink);
                 showSuccessMessage("Successfully added " + drink.getName() + " to order!");
             });
@@ -264,7 +263,6 @@ public class MenuView {
         }
         return customFont;
     }
-
 
     // Show a success message after adding a drink
     private void showSuccessMessage(String message) {

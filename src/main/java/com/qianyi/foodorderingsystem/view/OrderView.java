@@ -19,7 +19,6 @@ public class OrderView {
     private ListView<Drink> drinkListView;
     private ListView<Drink> orderListView;
     private Label totalPriceLabel;
-    private Button addButton;
     private Button removeButton;
     private Button confirmButton;
 
@@ -42,47 +41,28 @@ public class OrderView {
 
         // Order items list
         orderListView = new ListView<>();
-        orderListView.setPrefHeight(200);
+        orderListView.setPrefHeight(500);
 
         // Buttons
-        addButton = new Button("Add >>");
-        addButton.setOnAction(e -> {
-            Drink selectedDrink = drinkListView.getSelectionModel().getSelectedItem();
-            if (selectedDrink != null) {
-                orderController.addDrinkToOrder(selectedDrink);
-                updateOrderList(); // 更新订单列表视图
-                updateTotalPrice();
-            }
-        });
         removeButton = new Button("<< Remove");
         removeButton.setOnAction(e -> {
             Drink selectedDrink = orderListView.getSelectionModel().getSelectedItem();
             if (selectedDrink != null) {
                 orderController.removeDrinkFromOrder(selectedDrink);
-                updateOrderList(); // 更新订单列表视图
+                updateOrderList(); // Update the order list view
                 updateTotalPrice();
+            } else {
+                showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a drink to remove.");
             }
         });
+
         confirmButton = new Button("Confirm Order");
-        confirmButton.setOnAction(e -> {
-            try {
-                orderController.saveOrder();
-                showAlert(Alert.AlertType.INFORMATION, "Order Confirmed", "Your order has been placed successfully!");
-                Stage stage = (Stage) orderLayout.getScene().getWindow();
-                stage.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Order Failed", "Failed to save order to the database.");
-            }
-        });
+        confirmButton.setOnAction(e -> confirmOrder());
 
         totalPriceLabel = new Label("Total Price: RM0.00");
 
         orderLayout.getChildren().addAll(
                 title,
-                new Label("Available Drinks:"),
-                drinkListView,
-                addButton,
                 new Label("Your Order:"),
                 orderListView,
                 removeButton,
@@ -132,6 +112,11 @@ public class OrderView {
     }
 
     private void confirmOrder() {
+        if (orderListView.getItems().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Empty Order", "Your order list is empty. Please add items to your order before confirming.");
+            return;
+        }
+
         try {
             orderController.saveOrder(); // This may throw SQLException
             showAlert(Alert.AlertType.INFORMATION, "Order Confirmed", "Your order has been placed successfully!");
