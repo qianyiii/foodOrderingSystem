@@ -22,6 +22,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class represents the main view of the Drink Ordering System.
+ * It provides navigation to the menu and customer information sections, handles login and logout actions,
+ * and displays a welcome message to the user.
+ *
+ * It uses a background image and custom fonts for styling the UI elements.
+ */
 public class MainView {
 
     private BorderPane mainLayout;
@@ -34,6 +41,11 @@ public class MainView {
 
     private Customer currentCustomer;
 
+    /**
+     * Constructs a new MainView object.
+     *
+     * @param stage the main application stage
+     */
     public MainView(Stage stage) {
         // Initialize the main layout
         mainLayout = new BorderPane();
@@ -101,6 +113,7 @@ public class MainView {
         centerLayout.getChildren().addAll(menuButton,customerButton);
     }
 
+
     // Add this method to load and set the font for welcomeLabel
     private void setCustomFont() {
         // Load the custom font from resources
@@ -115,6 +128,9 @@ public class MainView {
         }
     }
 
+    /**
+     * Sets the background image for the main layout.
+     */
     private void setBackground() {
         // Load the image for background
         Image backgroundImage = new Image(getClass().getResource("/com/qianyi/foodorderingsystem/Background.png").toExternalForm());
@@ -132,6 +148,11 @@ public class MainView {
         mainLayout.setBackground(new Background(background));
     }
 
+    /**
+     * Handles login and logout actions.
+     *
+     * @param parentStage the parent stage for dialog display
+     */
     private void handleLoginLogout(Stage parentStage) {
         if ("Login".equals(loginLabel.getText())) {
             showLoginDialog(parentStage);
@@ -140,6 +161,11 @@ public class MainView {
         }
     }
 
+    /**
+     * Displays the login dialog for customer login.
+     *
+     * @param parentStage the parent stage for dialog display
+     */
     private void showLoginDialog(Stage parentStage) {
         // Create a new stage for the login dialog
         Stage loginStage = new Stage();
@@ -185,6 +211,11 @@ public class MainView {
         loginStage.showAndWait();
     }
 
+    /**
+     * Displays a confirmation dialog for logging out.
+     *
+     * @param parentStage the parent stage for dialog display
+     */
     private void showLogoutConfirmation(Stage parentStage) {
         // Create a new stage for the logout confirmation dialog
         Stage logoutStage = new Stage();
@@ -222,6 +253,12 @@ public class MainView {
         logoutStage.showAndWait();
     }
 
+    /**
+     * Fetches the customer's name from the database based on the phone number.
+     *
+     * @param phone the customer's phone number
+     * @return the customer's name, or null if not found
+     */
     private String getCustomerNameByPhone(String phone) {
         String query = "SELECT name FROM customers WHERE phone = ?";
         try (Connection connection = DatabaseUtil.getConnection();
@@ -237,11 +274,22 @@ public class MainView {
         return null;
     }
 
+    /**
+     * Returns the main layout of the view.
+     *
+     * @return the main layout as a BorderPane
+     */
     public BorderPane getMainLayout() {
         return mainLayout;
     }
 
-
+    /**
+     * Displays an alert message to the user.
+     *
+     * @param alertType the type of alert (e.g., ERROR, WARNING)
+     * @param title the title of the alert
+     * @param message the alert message
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.initOwner(mainLayout.getScene().getWindow());
@@ -251,11 +299,20 @@ public class MainView {
         alert.showAndWait();
     }
 
+    /**
+     * Returns the button for viewing the menu.
+     *
+     * @return the menu button
+     */
     public Button getMenuButton() {
         return menuButton;
     }
 
-
+    /**
+     * Returns the button for viewing customer information.
+     *
+     * @return the customer button
+     */
     public Button getCustomerButton() {
         return customerButton;
     }

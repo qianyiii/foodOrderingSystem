@@ -24,6 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the Menu View for the food ordering system.
+ * It displays available drink categories and drinks, allowing users to add items to their order.
+ * It interacts with {@link OrderView} to manage the user's selections.
+ */
 public class MenuView {
 
     private BorderPane menuLayout;
@@ -32,6 +37,14 @@ public class MenuView {
     private GridPane gridPane;
     private Map<String, Drink[]> categoryDrinksMap;
 
+    /**
+     * Constructs a MenuView instance.
+     * Initializes the layout and the available drink categories.
+     *
+     * @param primaryStage the main application stage
+     * @param mainScene the main application scene
+     * @param orderController the controller managing the order
+     */
     public MenuView(Stage primaryStage, Scene mainScene, OrderController orderController) {
         this.orderController = orderController;
         this.orderView = new OrderView(orderController);
@@ -75,10 +88,22 @@ public class MenuView {
         menuLayout.setRight(orderView.getOrderLayout());
     }
 
+    /**
+     * Returns the root layout for the menu view.
+     *
+     * @return the menu layout as a BorderPane
+     */
     public BorderPane getMenuLayout() {
         return menuLayout;
     }
 
+    /**
+     * Creates the top bar with a "Back" button for returning to the previous view.
+     *
+     * @param primaryStage the main application stage
+     * @param mainScene the main application scene
+     * @return an HBox containing the top bar layout
+     */
     private HBox createTopBar(Stage primaryStage, Scene mainScene) {
         // Create the "Back" label
         Label backLabel = new Label("<- Back");
@@ -93,11 +118,18 @@ public class MenuView {
         return topBar;
     }
 
+    /**
+     * Creates the left bar with category buttons.
+     * Each button corresponds to a drink category and displays drinks for that category when clicked.
+     *
+     * @return a VBox containing the category buttons
+     */
     // Corrected Left Bar with category buttons
     private VBox createLeftBar() {
         VBox vb = new VBox();
         vb.setSpacing(20); // Add spacing between buttons
         vb.setPadding(new Insets(10));
+
 
         // Store the background image path once
         String buttonBackgroundImage = getClass().getResource("/com/qianyi/foodorderingsystem/buttonBackground.png").toExternalForm();
@@ -146,6 +178,11 @@ public class MenuView {
         return vb;
     }
 
+    /**
+     * Sets a background image for the menu layout.
+     *
+     * @param imagePath the path to the background image file
+     */
     // Method to set background image for the menu layout
     private void setBackground(String imagePath) {
         Image backgroundImage = new Image(getClass().getResource(imagePath).toExternalForm());
@@ -156,6 +193,12 @@ public class MenuView {
         menuLayout.setBackground(new Background(bgImage));
     }
 
+    /**
+     * Displays the drinks for the selected category in a grid layout.
+     *
+     * @param category the selected drink category
+     * @return a GridPane containing the drinks in the selected category
+     */
     // Display the selected category's drinks
     private GridPane displayMenu(String category) {
         GridPane grid = new GridPane();
@@ -247,6 +290,13 @@ public class MenuView {
         return grid;
     }
 
+    /**
+     * Loads a custom font from the resources.
+     *
+     * @param fontFileName the name of the font file
+     * @param fontSize the size of the font
+     * @return the loaded custom font, or a fallback system font if loading fails
+     */
     // Load custom font with exception handling and fallback
     private Font loadCustomFont(String fontFileName, double fontSize) {
         Font customFont = null;
@@ -264,6 +314,11 @@ public class MenuView {
         return customFont;
     }
 
+    /**
+     * Displays a success message when a drink is added to the order.
+     *
+     * @param message the success message to display
+     */
     // Show a success message after adding a drink
     private void showSuccessMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

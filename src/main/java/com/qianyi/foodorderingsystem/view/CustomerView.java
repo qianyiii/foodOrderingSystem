@@ -15,6 +15,12 @@ import javafx.stage.Stage;
 
 import java.util.regex.Pattern;
 
+/**
+ * The CustomerView class represents the UI for submitting customer information
+ * such as name, phone number, and email in the Drink Ordering System.
+ * It provides validation for input data, background image styling,
+ * and interacts with the database to insert customer records.
+ */
 public class CustomerView {
 
     private BorderPane customerLayout;
@@ -22,6 +28,12 @@ public class CustomerView {
     private TextField phoneField;
     private TextField emailField;
 
+    /**
+     * Constructs a CustomerView object.
+     *
+     * @param stage the main application stage
+     * @param mainScene the main scene to return to
+     */
     public CustomerView(Stage stage, Scene mainScene) {
         // Initialize the layout
         customerLayout = new BorderPane();
@@ -77,6 +89,13 @@ public class CustomerView {
         customerLayout.setCenter(formLayout);
     }
 
+    /**
+     * Creates an HBox layout for a labeled TextField.
+     *
+     * @param labelText the text for the label
+     * @param textField the TextField associated with the label
+     * @return a configured HBox containing the label and TextField
+     */
     private HBox createLabeledTextField(String labelText, TextField textField) {
         Label label = new Label(labelText);
         label.setPrefWidth(100);
@@ -86,6 +105,13 @@ public class CustomerView {
         return hBox;
     }
 
+    /**
+     * Inserts customer data into the database.
+     *
+     * @param name the customer's name
+     * @param phone the customer's phone number
+     * @param email the customer's email address
+     */
     private void insertCustomerData(String name, String phone, String email) {
         // Define the SQL query
         String query = "INSERT INTO customers (name, phone, email) VALUES (?, ?, ?)";
@@ -94,6 +120,11 @@ public class CustomerView {
         DatabaseUtil.executeUpdate(query, name, phone, email);
     }
 
+    /**
+     * Displays a success message with the entered customer information.
+     *
+     * @param parentStage the parent stage for the message dialog
+     */
     private void showSuccessMessage(Stage parentStage) {
         // Create a new stage for the success message
         Stage messageStage = new Stage();
@@ -130,6 +161,11 @@ public class CustomerView {
         messageStage.showAndWait(); // Block the parent window until this one is closed
     }
 
+    /**
+     * Sets a background image for the view.
+     *
+     * @param imagePath the path to the background image
+     */
     private void setBackgroundImage(String imagePath) {
         Image image = new Image(getClass().getResource(imagePath).toExternalForm());
         BackgroundImage backgroundImage = new BackgroundImage(
@@ -142,6 +178,14 @@ public class CustomerView {
         customerLayout.setBackground(new Background(backgroundImage));
     }
 
+    /**
+     * Validates the customer's name, phone number, and email format.
+     *
+     * @param name the customer's name
+     * @param phone the customer's phone number
+     * @param email the customer's email
+     * @return true if the data is valid, false otherwise
+     */
     private boolean isValidCustomerData(String name, String phone, String email) {
         if (!ValidationUtil.isValidString(name) || !ValidationUtil.isValidString(phone) || !ValidationUtil.isValidString(email)) {
             showAlert(Alert.AlertType.ERROR, "Validation Error", "All fields are required.");
@@ -162,19 +206,44 @@ public class CustomerView {
         return true;
     }
 
+    /**
+     * Validates the customer's name to ensure it contains only letters.
+     *
+     * @param name the customer's name
+     * @return true if valid, false otherwise
+     */
     private boolean isValidName(String name) {
         return Pattern.matches("[a-zA-Z]+", name);
     }
 
+    /**
+     * Validates the phone number to ensure it contains only digits.
+     *
+     * @param phone the customer's phone number
+     * @return true if valid, false otherwise
+     */
     private boolean isValidPhoneNumber(String phone) {
         return Pattern.matches("\\d+", phone);
     }
 
+    /**
+     * Validates the email format.
+     *
+     * @param email the customer's email
+     * @return true if valid, false otherwise
+     */
     private boolean isValidEmail(String email) {
         // Basic email pattern, adjust as needed
         return Pattern.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", email);
     }
 
+    /**
+     * Displays an alert with the specified type, title, and message.
+     *
+     * @param alertType the type of alert (e.g., ERROR, INFORMATION)
+     * @param title the alert title
+     * @param message the message content
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.initOwner(customerLayout.getScene().getWindow());
@@ -184,18 +253,38 @@ public class CustomerView {
         alert.showAndWait();
     }
 
+    /**
+     * Returns the main customer layout.
+     *
+     * @return the main layout as a BorderPane
+     */
     public BorderPane getCustomerLayout() {
         return customerLayout;
     }
 
+    /**
+     * Returns the TextField for the customer's name.
+     *
+     * @return the name TextField
+     */
     public TextField getNameField() {
         return nameField;
     }
 
+    /**
+     * Returns the TextField for the customer's phone number.
+     *
+     * @return the phone TextField
+     */
     public TextField getPhoneField() {
         return phoneField;
     }
 
+    /**
+     * Returns the TextField for the customer's email.
+     *
+     * @return the email TextField
+     */
     public TextField getEmailField() {
         return emailField;
     }

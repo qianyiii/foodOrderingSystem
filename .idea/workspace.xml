@@ -5,13 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cad4f388-f063-4a99-8692-1410256bba20" name="Changes" comment="Initial commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/DrinkOrderingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/DrinkOrderingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/MenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Coffee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Coffee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Drink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Drink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Juice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Juice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Store.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Tea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Tea.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/DrinkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/DrinkService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/MenuService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/DatabaseUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/DatabaseUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/FileUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/FileUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/PriceCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/ValidationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/util/ValidationUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/CustomerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/CustomerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/MenuView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/OrderView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/view/OrderView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -165,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725783143204</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1725792189759</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1725792189759</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -188,7 +211,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/qianyi/foodorderingsystem/model/Customer.java</url>
-          <line>28</line>
+          <line>61</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

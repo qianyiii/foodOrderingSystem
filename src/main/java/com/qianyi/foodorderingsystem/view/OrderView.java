@@ -15,6 +15,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the Order View for a food ordering system.
+ * It allows the user to view the current order, remove items, and confirm the order.
+ *
+ * It interacts with the {@link OrderController} to manage drinks in the order and calculate the total price.
+ */
 public class OrderView {
     private OrderController orderController;
     private VBox orderLayout;
@@ -25,6 +31,12 @@ public class OrderView {
     private static final String ORDER_HISTORY_FILE = "order_history.txt"; // Specify your file path
 
 
+    /**
+     * Constructs an OrderView instance with a given OrderController.
+     * Initializes the layout and loads the drinks data.
+     *
+     * @param orderController the controller managing the order
+     */
     public OrderView(OrderController orderController) {
         this.orderController = orderController;
         initializeLayout();
@@ -85,6 +97,11 @@ public class OrderView {
         updateTotalPrice();
     }
 
+    /**
+     * Adds a drink to the order.
+     *
+     * @param drink the drink to be added
+     */
     public void addDrinkToOrder(Drink drink) {
         if (drink != null && drink.getId() > 0) {
             orderController.addDrinkToOrder(drink);
@@ -95,6 +112,9 @@ public class OrderView {
         }
     }
 
+    /**
+     * Removes the selected drink from the order.
+     */
     private void removeDrinkFromOrder() {
         OrderItem selectedItem = orderListView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
@@ -107,6 +127,9 @@ public class OrderView {
         }
     }
 
+    /**
+     * Updates the order list view with the current items in the order.
+     */
     private void updateOrderList() {
         orderListView.getItems().clear();
         for (Map.Entry<Drink, Integer> entry : orderController.getOrderItems().entrySet()) {
@@ -114,11 +137,18 @@ public class OrderView {
         }
     }
 
+    /**
+     * Updates the total price label with the current total.
+     */
     private void updateTotalPrice() {
         double totalPrice = orderController.getTotalPrice();
         totalPriceLabel.setText(String.format("Total Price: RM%.2f", totalPrice));
     }
 
+    /**
+     * Confirms the order and saves it to the database.
+     * Also saves the order summary to a file.
+     */
     private void confirmOrder() {
         if (orderListView.getItems().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Empty Order", "Your order list is empty. Please add items to your order before confirming.");
@@ -144,6 +174,11 @@ public class OrderView {
         }
     }
 
+    /**
+     * Generates a summary of the current order.
+     *
+     * @return the summary of the order as a String
+     */
     private String getOrderSummary() {
         StringBuilder summary = new StringBuilder("Order Summary:\n\n");
 
@@ -160,6 +195,13 @@ public class OrderView {
         return orderLayout;
     }
 
+    /**
+     * Displays an alert message to the user.
+     *
+     * @param alertType the type of alert (e.g., ERROR, WARNING)
+     * @param title the title of the alert
+     * @param message the message content of the alert
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.initOwner(orderLayout.getScene().getWindow());
@@ -169,27 +211,56 @@ public class OrderView {
         alert.showAndWait();
     }
 
+    /**
+     * Class representing an order item, which contains a drink and its quantity.
+     */
     private class OrderItem {
         private Drink drink;
         private int quantity;
 
+        /**
+         * Constructs an OrderItem with a drink and its quantity.
+         *
+         * @param drink the drink in the order
+         * @param quantity the quantity of the drink
+         */
         public OrderItem(Drink drink, int quantity) {
             this.drink = drink;
             this.quantity = quantity;
         }
 
+        /**
+         * Gets the drink associated with this order item.
+         *
+         * @return the drink
+         */
         public Drink getDrink() {
             return drink;
         }
 
+        /**
+         * Gets the quantity of the drink in the order.
+         *
+         * @return the quantity of the drink
+         */
         public int getQuantity() {
             return quantity;
         }
 
+        /**
+         * Calculates the subtotal for the order item.
+         *
+         * @return the subtotal for this item
+         */
         public double getSubtotal() {
             return drink.getPrice() * quantity;
         }
 
+        /**
+         * Returns a string representation of the order item.
+         *
+         * @return a string containing the drink name, quantity, and subtotal
+         */
         @Override
         public String toString() {
             return String.format("%s (x%d) - RM%.2f", drink.getName(), quantity, getSubtotal());
