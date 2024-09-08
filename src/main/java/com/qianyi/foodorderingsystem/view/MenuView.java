@@ -14,8 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,7 +171,8 @@ public class MenuView {
             return grid; // No drinks for this category
         }
 
-        Font font = Font.font("Verdana", FontWeight.BOLD, 15);
+        // Load custom font from resources
+        Font customFont = loadCustomFont("ShantellSansRegular.ttf", 17);
 
         for (int i = 0; i < drinks.length; i++) {
             Drink drink = drinks[i];
@@ -184,18 +187,44 @@ public class MenuView {
             Image image = new Image(resourceUrl.toExternalForm());
             ImageView imageView = new ImageView(image);
 
-            imageView.setFitWidth(200);
-            imageView.setFitHeight(150);
-            imageView.setPreserveRatio(true);
+            // Set a fixed size for all images
+            double imageWidth = 220;
+            double imageHeight = 180;
+            imageView.setFitWidth(imageWidth);
+            imageView.setFitHeight(imageHeight);
+
+            // Optional: If you want to preserve aspect ratio but maintain consistent size
+            imageView.setPreserveRatio(false); // Set to true if preserving aspect ratio is important
+
+            // Center the image in the grid cell by using a StackPane
+            StackPane imageContainer = new StackPane(imageView);
+            imageContainer.setAlignment(Pos.CENTER);
+            imageContainer.setPrefSize(imageWidth, imageHeight);
 
             // Add the image to the grid
-            grid.add(imageView, col, row);
+            grid.add(imageContainer, col, row);
 
+            // Add drink name under the image
+            Text drinkName = new Text(drink.getName());
+            // Apply the custom font to the drink name
+            drinkName.setFont(customFont); // Use custom font
+            drinkName.setFill(Color.BLACK);
+            drinkName.setTextAlignment(TextAlignment.CENTER); // Center the text
+
+            // Create a VBox to hold the image and the name together
+            VBox drinkBox = new VBox(imageContainer, drinkName);
+            drinkBox.setAlignment(Pos.CENTER);
+            drinkBox.setSpacing(10);
+
+            // Add the drinkBox to the grid
+            grid.add(drinkBox, col, row);
+
+            // Price and add-to-order button in a HBox below the image and name
             HBox hb = new HBox();
             hb.setSpacing(20);
             hb.setPadding(new Insets(10));
             Text txtPrice = new Text("From RM" + drink.getPrice());
-            txtPrice.setFont(font);
+            txtPrice.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
             txtPrice.setFill(Color.GREEN);
             Button btnOrder = new Button("Add to Order");
 
@@ -219,6 +248,25 @@ public class MenuView {
         return grid;
     }
 
+    // Load custom font with exception handling and fallback
+    private Font loadCustomFont(String fontFileName, double fontSize) {
+        Font customFont = null;
+        try (InputStream fontStream = getClass().getResourceAsStream("/com/qianyi/foodorderingsystem/" + fontFileName)) {
+            if (fontStream == null) {
+                System.out.println("Font file not found: " + fontFileName);
+                customFont = Font.font("System", fontSize); // Fallback to system default font
+            } else {
+                customFont = Font.loadFont(fontStream, fontSize);
+            }
+        } catch (Exception e) {
+            System.out.println("Error loading custom font: " + e.getMessage());
+            customFont = Font.font("System", fontSize); // Fallback to system default font
+        }
+        return customFont;
+    }
+
+
+    // Show a success message after adding a drink
     private void showSuccessMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");

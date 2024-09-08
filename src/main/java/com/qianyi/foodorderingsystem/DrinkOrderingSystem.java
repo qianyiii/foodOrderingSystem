@@ -79,7 +79,7 @@ public class DrinkOrderingSystem extends Application {
 
     private void showMenuView(Stage stage) {
         menuView = new MenuView(stage, stage.getScene(), orderController); // Pass orderController to MenuView
-        Scene menuScene = new Scene(menuView.getMenuLayout(), 1000, 500);
+        Scene menuScene = new Scene(menuView.getMenuLayout(), 1000, 630);
         stage.setScene(menuScene);
     }
 
